@@ -1,0 +1,212 @@
+{
+  "info": {
+    "version": "0.0.1",
+    "description": "Swagger spec for documenting the services",
+    "title": "Peoples and places services"
+  },
+  "paths": {
+    "\/places\/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Return a list of places"
+          }
+        },
+        "summary": "Return a list of places"
+      }
+    },
+    "\/places\/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Successfully return place object"
+          }
+        },
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "description": "ID of place to fetch",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "summary": "Returns a place object"
+      },
+      "put": {
+        "responses": {
+          "200": {
+            "description": "Place was updated!"
+          }
+        },
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "description": "ID of place to update",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "summary": "Update place"
+      }
+    },
+    "\/peoples\/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Return a list of peoples"
+          }
+        },
+        "summary": "Return a list of peoples"
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application\/json": {
+              "schema": {
+                "$ref": "#\/components\/schemas\/people"
+              }
+            }
+          },
+          "required": true,
+          "description": "Create a new people"
+        },
+        "responses": {
+          "200": {
+            "description": "user object"
+          }
+        },
+        "summary": "Creates a new people"
+      }
+    },
+    "\/peoples\/{id}": {
+       "get": {
+        "responses": {
+          "200": {
+            "description": "Return people object"
+          }
+        },
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "description": "ID of people to fetch",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "summary": "Return people object"
+      }
+    },
+    "\/peoples\/place/{id}": {
+       "get": {
+        "responses": {
+          "200": {
+            "description": "Return a list of peoples"
+          }
+        },
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "description": "ID of place to fetch",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "summary": "Return a list of peoples"
+      }
+    },
+    "\/got\/places/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returns a list of places with the people who live there"
+          }
+        },
+        "summary": "Returns a list of places with the people who live there"
+      }
+    },
+    "\/got\/places/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returns a places with the people who live there"
+          }
+        },
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "description": "ID of place to fetch",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "summary": "Returns a places with the people who live there"
+      }
+    },
+  },
+  "openapi": "3.0.2",
+  "components": {
+    "schemas": {
+      "people": {
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "isAlive": {
+            "type": "boolean"
+          },
+          "isKing": {
+            "type": "boolean"
+          },
+          "placeId": {
+            "type": "integer"
+          }
+        }
+      },
+      "place": {
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "http:\/\/localhost:8081/v1"
+    },
+    {
+
+      "url": "http:\/\/localhost:8082/v1"
+    },
+    {
+      "url": "http:\/\/localhost:8083/v1"
+    }
+  ]
+}

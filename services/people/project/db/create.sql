@@ -1,0 +1,2 @@
+CREATE DATABASE peoples;
+CREATE DATABASE peoples_test;

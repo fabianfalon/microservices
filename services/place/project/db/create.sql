@@ -1,0 +1,2 @@
+CREATE DATABASE places;
+CREATE DATABASE places_test;
