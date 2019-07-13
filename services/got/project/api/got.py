@@ -1,6 +1,5 @@
 # services/got/project/api/peoples.py
 # -*- coding: utf-8 -*-
-import json
 import logging
 
 import requests
@@ -24,12 +23,12 @@ class GotPlaceResources(Resource):
         # get to places services
         places_response = requests.get(PLACE_ENDPOINT)
         if places_response.ok:
-            place_data = json.loads(places_response.text)
+            place_data = places_response.json()
             for place in place_data["results"]:
-                # get to peoples services
+                # get peoples services
                 people_response = requests.get("{}place/{}".format(PEOPLE_ENDPOINT, place.get("id")))
                 if people_response.ok:
-                    people_data = json.loads(people_response.text)
+                    people_data = people_response.json()
                     data.append({
                         "id": place.get("id"),
                         "name": place.get("name"),
@@ -43,22 +42,18 @@ class GotPlaceDetailResources(Resource):
 
     def get(self, place_id):
         """Get people by place"""
-        data = []
-        peoples = []  # list of peoples
         # get to places services
         place_response = requests.get("{}{}".format(PLACE_ENDPOINT, place_id))
         if place_response.ok:
             # get to peoples services
             people_response = requests.get("{}place/{}".format(PEOPLE_ENDPOINT, place_id))
-            if people_response.ok:
-                people_data = json.loads(people_response.text)
-                peoples = people_data["results"]
-            place_data = json.loads(place_response.text)
-            data.append({
+            peoples = people_response.json().get("results") if people_response.ok else []
+            place_data = place_response.json()
+            data = {
                 "id": place_data.get("id"),
                 "name": place_data.get("name"),
                 "people": peoples
-            })
+            }
         return data, 200
 
 

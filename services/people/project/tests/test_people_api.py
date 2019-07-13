@@ -45,4 +45,3 @@ class TestPeopleService(BaseTestCase):
             '/v1/peoples/place/{}'.format(people_id)
         )
         self.assertEqual(response.status_code, 200)
-

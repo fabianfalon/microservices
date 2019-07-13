@@ -68,8 +68,7 @@ class PeopleResources(Resource):
             try:
                 people.save()
                 response['status'] = 'success'
-                response['message'] = 'The person was created successfully'
-                response["data"] = data.get("isAlive")
+                response['message'] = 'Person was created successfully'
                 response['data'] = people.to_json()
                 return response, 202
             except PeopleException as error:
@@ -79,7 +78,7 @@ class PeopleResources(Resource):
                 return response, 400
         else:
             response['error'] = True
-            response['message'] = 'The person could not be created because the place was not found or doesnt exist'
+            response['message'] = 'Person could not be created because place was not found or doesnt exist'
             return response, 500
 
 

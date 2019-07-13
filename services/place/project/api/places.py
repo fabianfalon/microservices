@@ -61,7 +61,7 @@ class PlaceDetailResources(Resource):
         response = dict()
         data = self.parser.parse_args()
         if not data:
-            response['message'] = "Place Bad request in update place {}, name field is mandatory".format(place_id)
+            response['message'] = "Place: Bad request in update place {}, name field is mandatory".format(place_id)
             response['error'] = True
             return response, 400
         try:
@@ -74,7 +74,7 @@ class PlaceDetailResources(Resource):
                 response["data"] = place.to_json()
                 return response, 200
             except exc.NoResultFound:
-                logger.info("Place Bad request in update place {}".format(place_id))
+                logger.info("Place: Bad request in update place {}".format(place_id))
                 response['message'] = "Place: Bad request in update place {}, not found".format(place_id)
                 response['error'] = True
                 return response, 404

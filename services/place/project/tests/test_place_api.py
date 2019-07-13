@@ -39,7 +39,6 @@ class TestPlaceService(BaseTestCase):
         add_place("Lugar 1")
         place_id = 1
         response = self.client.get('/v1/places/{}'.format(place_id))
-        data = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 200)
 
     def test_update_place(self):

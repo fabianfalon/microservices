@@ -16,4 +16,3 @@ class DevelopmentConfig(BaseConfig):
     """Development configuration"""
     DEBUG = True
     DEBUG_TB_ENABLED = True
-
