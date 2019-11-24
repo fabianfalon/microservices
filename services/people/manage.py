@@ -6,15 +6,15 @@ import unittest
 
 import coverage
 from flask.cli import FlaskGroup
-from project import create_app, db
-from project.api.models import People
+from src import create_app, db
+from src.models.people import People
 
 COV = coverage.coverage(
     branch=True,
-    include='project/*',
+    include='src/*',
     omit=[
-        'project/tests/*',
-        'project/config.py',
+        'tests/*',
+        'src/config.py',
     ]
 )
 COV.start()
@@ -26,7 +26,7 @@ cli = FlaskGroup(create_app=create_app)
 @cli.command()
 def test():
     """Runs the tests without code coverage"""
-    tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
+    tests = unittest.TestLoader().discover('tests', pattern='test*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         return 0
@@ -36,7 +36,7 @@ def test():
 @cli.command()
 def cov():
     """Runs the unit tests with coverage."""
-    tests = unittest.TestLoader().discover('project/tests')
+    tests = unittest.TestLoader().discover('tests')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         COV.stop()
