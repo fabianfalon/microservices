@@ -12,7 +12,7 @@ services:
       - 8081:5000
     environment:
       - FLASK_ENV=development
-      - APP_SETTINGS=project.config.DevelopmentConfig
+      - APP_SETTINGS=src.config.DevelopmentConfig
       - DATABASE_URL=postgres://postgres:postgres@places-db:5432/places
       - DATABASE_TEST_URL=postgres://postgres:postgres@places-db:5432/places_test
       - SECRET_KEY=PB3aGvTmCkzaLGRAxDc3aMayKTPTDd5usT8gw4pCmKOk5AlJjh12pTrnNgQyOHCH
@@ -21,7 +21,7 @@ services:
 
   places-db:
     build:
-      context: ./services/place/project/db
+      context: ./services/place/src/db
       dockerfile: Dockerfile
     ports:
       - 5436:5432
@@ -39,7 +39,7 @@ services:
       - 8082:5000
     environment:
       - FLASK_ENV=development
-      - APP_SETTINGS=project.config.DevelopmentConfig
+      - APP_SETTINGS=src.config.DevelopmentConfig
       - DATABASE_URL=postgres://postgres:postgres@peoples-db:5432/peoples
       - DATABASE_TEST_URL=postgres://postgres:postgres@peoples-db:5432/peoples_test
       - SECRET_KEY=PB3aGvTmCkzaLGRAxDc3aMayKTPTDd5usT8gw4pCmKOk5AlJjh12pTrnNgQy333
@@ -49,7 +49,7 @@ services:
 
   peoples-db:
     build:
-      context: ./services/people/project/db
+      context: ./services/people/src/db
       dockerfile: Dockerfile
     ports:
       - 5437:5432
@@ -67,7 +67,7 @@ services:
       - 8083:5000
     environment:
       - FLASK_ENV=development
-      - APP_SETTINGS=project.config.DevelopmentConfig
+      - APP_SETTINGS=src.config.DevelopmentConfig
       - SECRET_KEY=PB3aGvTmCkzaLGRAxDc3aMayKTPTDd5usT8gw4pCmKOk5AlJjh12pTrnNgQy333
       - PLACE_SERVICE_URL=http://places:8081
       - PEOPLE_SERVICE=http://peoples:8082
