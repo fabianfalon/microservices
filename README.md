@@ -1,4 +1,5 @@
 # Microservicios
+Ejemplo de microservicios en flask y conexion entre los mismos.
 
 ### Local Setup
 
@@ -15,7 +16,7 @@
     $ docker-compose exec places python manage.py populate_db
     $ docker-compose exec peoples python manage.py populate_db
 
-### RUN Tests
+### Run Tests
     $ docker-compose exec places python manage.py test
     $ docker-compose exec peoples python manage.py test
 
