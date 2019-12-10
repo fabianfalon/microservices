@@ -35,6 +35,7 @@ class GotPlaceDetailResources(Resource):
 
     def get(self, place_id):
         """Get people by place"""
+        data = []
         # get to places services
         place = got_service.get_place_by_id(place_id)
         if place:
@@ -43,7 +44,7 @@ class GotPlaceDetailResources(Resource):
             data = {
                 "id": place.get("id"),
                 "name": place.get("name"),
-                "people": people["results"]
+                "people": people["results"] if people else []
             }
         return data, 200
 
