@@ -18,7 +18,8 @@ def create_app(script_info=None):
     cors.init_app(app)
 
     # register blueprints
-    from project.api.got import got_blueprint
+    from src.views.got import got_blueprint
+
     app.register_blueprint(got_blueprint)
 
     # shell context for flask cli

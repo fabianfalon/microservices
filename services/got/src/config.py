@@ -1,6 +1,3 @@
-# services/got/project/config.py
-
-
 import os
 
 

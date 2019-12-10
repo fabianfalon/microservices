@@ -57,23 +57,23 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
-  # got:
-  #   build:
-  #     context: ./services/got
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - './services/got:/usr/src/app'
-  #   ports:
-  #     - 8083:5000
-  #   environment:
-  #     - FLASK_ENV=development
-  #     - APP_SETTINGS=src.config.DevelopmentConfig
-  #     - SECRET_KEY=PB3aGvTmCkzaLGRAxDc3aMayKTPTDd5usT8gw4pCmKOk5AlJjh12pTrnNgQy333
-  #     - PLACE_SERVICE_URL=http://places:8081
-  #     - PEOPLE_SERVICE=http://peoples:8082
-  #   depends_on:
-  #     - peoples-db
-  #     - places
+  got:
+    build:
+      context: ./services/got
+      dockerfile: Dockerfile
+    volumes:
+      - './services/got:/usr/src/app'
+    ports:
+      - 8083:5000
+    environment:
+      - FLASK_ENV=development
+      - APP_SETTINGS=src.config.DevelopmentConfig
+      - SECRET_KEY=PB3aGvTmCkzaLGRAxDc3aMayKTPTDd5usT8gw4pCmKOk5AlJjh12pTrnNgQy333
+      - PLACE_SERVICE_URL=http://places:8081
+      - PEOPLE_SERVICE=http://peoples:8082
+    depends_on:
+      - peoples-db
+      - places
 
   swagger:
     build:

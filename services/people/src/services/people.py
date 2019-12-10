@@ -21,6 +21,10 @@ class PeopleService:
         peoples = [p.to_json() for p in People.query.order_by(People.id.asc())]
         return peoples
 
+    def get_people_by_place_id(self, place_id):
+        peoples = [p.to_json() for p in People.query.filter_by(placeId=place_id).all()]
+        return peoples
+
     def create(self, payload):
         isAlive = True if payload.get("isAlive") == "True" else False
         isKing = True if payload.get("isKing") == "True" else False

@@ -76,5 +76,25 @@ class PeopleDetailResources(Resource):
         return response, 200
 
 
+class PeopleByPlaceIdResources(Resource):
+    """Get peoples by placeId"""
+
+    def get(self, place_id):
+        """Get detail people"""
+        response = dict()
+        try:
+            peoples = people_service.get_people_by_place_id(place_id)
+            response['results'] = peoples
+            response['count'] = len(peoples)
+            return response, 200
+        except (exc.NoResultFound):
+            logger.info("People Not found with place id: {}".format(place_id))
+            response['message'] = "People Not found with place id: {}".format(place_id)
+            response['error'] = True
+            return response, 404
+
+
 api.add_resource(PeopleResources, '/v1/peoples/')
 api.add_resource(PeopleDetailResources, '/v1/peoples/<people_id>')
+api.add_resource(PeopleByPlaceIdResources, '/v1/peoples/place/<place_id>')
+
