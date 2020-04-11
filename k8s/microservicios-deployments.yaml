@@ -61,6 +61,8 @@ spec:
         - name: SECRET_KEY
           value: PB3aGvTmCkzaLGRAxDc3aMayKTPTDd5usT8gw4pCmKOk5AlJjh12pTrnNgQyOHCH
 
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -78,7 +80,7 @@ spec:
         app: people
     spec:
       containers:
-      - image: fabianfalon/people-services:1
+      - image: fabianfalon/people-services:release2.1
         name: people
         ports:
         - containerPort: 80
@@ -89,6 +91,6 @@ spec:
         - name: APP_SETTINGS
           value: src.config.DevelopmentConfig
         - name: DATABASE_URL
-          value: postgres://people_user:people_pass@people-db:5432/peoples
+          value: postgres://people_user:people_pass@people-db:5433/peoples
         - name: SECRET_KEY
           value: PB3aGvTmCkzaLGRAxDc3aMayKTPTDd5usT8gw4pCmKOk5AlJjh12pTrnNgQy333
