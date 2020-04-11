@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: got
+  name: got
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: got
+  template:
+    metadata:
+      labels:
+        app: got
+    spec:
+      containers:
+      - image: fabianfalon/got-service:release2.2
+        name: got
+        ports:
+        - containerPort: 80
+          name: got
+        env:
+        - name: FLASK_ENV
+          value: development
+        - name: APP_SETTINGS
+          value: src.config.DevelopmentConfig
+        - name: SECRET_KEY
+          value: PB3aGvTmCkzaLGRAxDc3aMayKTPTDd5usT8gw4pCmKOk5AlJjh12pTrnNgQyOHCH
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: place
+  name: place
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: place
+  template:
+    metadata:
+      labels:
+        app: place
+    spec:
+      containers:
+      - image: fabianfalon/place-service:release2
+        name: place
+        ports:
+        - containerPort: 80
+          name: place
+        env:
+        - name: FLASK_ENV
+          value: development
+        - name: APP_SETTINGS
+          value: src.config.DevelopmentConfig
+        - name: DATABASE_URL
+          value: postgres://place_user:place_pass@place-db:5432/places
+        - name: SECRET_KEY
+          value: PB3aGvTmCkzaLGRAxDc3aMayKTPTDd5usT8gw4pCmKOk5AlJjh12pTrnNgQyOHCH
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: people
+  name: people
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: people
+  template:
+    metadata:
+      labels:
+        app: people
+    spec:
+      containers:
+      - image: fabianfalon/people-services:1
+        name: people
+        ports:
+        - containerPort: 80
+          name: people
+        env:
+        - name: FLASK_ENV
+          value: development
+        - name: APP_SETTINGS
+          value: src.config.DevelopmentConfig
+        - name: DATABASE_URL
+          value: postgres://people_user:people_pass@people-db:5432/peoples
+        - name: SECRET_KEY
+          value: PB3aGvTmCkzaLGRAxDc3aMayKTPTDd5usT8gw4pCmKOk5AlJjh12pTrnNgQy333

@@ -10,11 +10,16 @@ class GotService:
     """GOT Service"""
 
     def get_places(self):
-        response = requests.get(PLACE_ENDPOINT)
-        if response.ok:
-            return response.json()
-        else:
-            return []
+        data = {"result": []}
+        try:
+            response = requests.get(PLACE_ENDPOINT)
+            if response.ok:
+                return response.json()
+            else:
+                return data
+        except Exception as error:
+            logger.error(error)
+            return data
 
     def get_place_by_id(self, place_id: int):
         response = requests.get("{}{}".format(PLACE_ENDPOINT, place_id))
