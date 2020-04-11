@@ -2,7 +2,7 @@
 
 echo "Waiting for postgres..."
 
-while ! nc -z places-db 5432; do
+while ! nc -z people-db 5433; do
   sleep 0.1
 done
 
