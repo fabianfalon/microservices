@@ -1,0 +1,23 @@
+pyms:
+  services:
+    requests:
+      data: true
+      retries: 3
+      status_retries: [400, 401, 402, 403, 404, 405, 500, 501, 502, 503]
+      propagate_headers: true
+  config:
+    DEBUG: true
+    TESTING: false
+    SWAGGER: true
+    APP_NAME: user-ms
+    PROFILE_EXECUTIONS: true
+    DEBUG_TB_ENABLED: False
+    APPLICATION_ROOT : ""
+    SECRET_KEY: "zsDFaJuajr39dkjn040_1706#"
+    SQLALCHEMY_DATABASE_URI: postgres://postgres:postgres@users-db:5432/users
+    SQLALCHEMY_TRACK_MODIFICATIONS: true
+    ERROR_INCLUDE_MESSAGE: false
+    MAPPER_METHODS: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH']
+    API_NAME: /users
+    URL_PREFIX: /users/v0
+    API_VERSION: v0
