@@ -42,6 +42,16 @@ MODEL_CREATE_USER = API_USER.model(
     },
 )
 
+
+MODEL_USER_AUTHENTICATED = API_USER.model(
+    "UserAuthenthicated",
+    {
+        "username": fields.String(description="User username", max_length=USER_NAME_MAX_LENGTH),
+        "password": fields.String(description="User email", max_length=500),
+    },
+)
+
+
 MODEL_UPDATE_USER = API_USER.model(
     "UpdateUser",
     {

@@ -1,0 +1,18 @@
+pyms:
+  services:
+    requests: true
+    swagger:
+      path: "swagger"
+      file: "swagger.yaml"
+      url: "/ui/"
+      project_dir: "src.views"
+  config:
+    DEBUG: true
+    TESTING: true
+    APP_NAME: Authentication
+    APPLICATION_ROOT : /auth/v1
+    SECRET_KEY: "4oc_4thZGfrees-0404-bLctJasdAdsNsdascy"
+    CLIENTS:
+      USERS:
+        SERVER: http://localhost:8005/users/v1
+        GET_BY_USERNAME: "{base_url}/users"

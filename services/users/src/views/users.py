@@ -11,7 +11,7 @@ from src.serializers.user import UserMinSchema
 from src.services.user import usr_srv
 from src.views.swagger_docs.api_model import API_USER
 from src.views.swagger_docs.commons import MODEL_ERROR_LIST
-from src.views.swagger_docs.user import MODEL_CREATE_USER, MODEL_DATA_USER_PAGINATED_LIST_PARENT, MODEL_UPDATE_USER
+from src.views.swagger_docs.user import MODEL_CREATE_USER, MODEL_DATA_USER_PAGINATED_LIST_PARENT, MODEL_UPDATE_USER, MODEL_USER_AUTHENTICATED
 from src.views.validators.user import validate_user
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt()
@@ -118,3 +118,45 @@ class UserDetail(Resource):
         user_id = kwargs.get("userId")
         user = usr_srv.get_by_id(user_id)
         return response_item(TAG_WRAPPER, user, serializer=UserMinSchema)
+
+
+@API_USER.route("users/<string:username>")
+class UserByUsername(Resource):
+
+    @API_USER.doc(
+        description="get user by username",
+        responses={
+            204: "Book detaild",
+            404: ("User Entity not found", MODEL_ERROR_LIST),
+            409: ("Data conflict", MODEL_ERROR_LIST),
+            500: ("Internal Server Error", MODEL_ERROR_LIST),
+        },
+    )
+    def get(self, **kwargs):
+        username = kwargs.get("username")
+        user = usr_srv.get_by_username(username)
+        return response_item(TAG_WRAPPER, user, serializer=UserMinSchema)
+
+
+@API_USER.route("users/authenticate")
+class UserAuthent(Resource):
+
+    @API_USER.expect(MODEL_USER_AUTHENTICATED, description="Input data")
+    @API_USER.doc(
+        description="User Authenticate",
+        responses={
+            200: ("User Authenticated", MODEL_USER_AUTHENTICATED),
+            400: ("Input data wrong", MODEL_ERROR_LIST),
+            403: ("User does not have enough permissions", MODEL_ERROR_LIST),
+            406: ("Some of the requested languages are not available", MODEL_ERROR_LIST),
+            409: ("Data conflict", MODEL_ERROR_LIST),
+            500: ("Internal Server Error", MODEL_ERROR_LIST),
+        },
+    )
+    def post(self):
+        logger.debug("Creating Book")
+        user = request.get_json()
+
+        user = usr_srv.authenticated(user.get("username"), user.get("password"))
+        data = response_item(TAG_WRAPPER, user, serializer=UserMinSchema)
+        return data, 200

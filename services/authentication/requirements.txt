@@ -1,0 +1,6 @@
+py-ms[all]==2.5.1
+Babel==2.8.0
+Flask-Script==2.0.6
+Flask-Bcrypt==0.7.1
+Flask-Cors==3.0.8
+PyJWT==1.7.1
