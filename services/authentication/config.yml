@@ -15,4 +15,6 @@ pyms:
     CLIENTS:
       USERS:
         SERVER: http://users:5000/users/v1
+        AUTHENTICATE: "{base_url}/users/authenticate"
+
         # SERVER: http://localhost:8085/users/v1

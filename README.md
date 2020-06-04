@@ -24,6 +24,10 @@ Ejemplo de microservicios en flask y conexion entre los mismos.
     $ docker-compose run --rm places flake8
     $ docker-compose run --rm peoples flake8
 
+### Run migrations
+    $ docker-compose exec users python main.py db migrate
+    $ docker-compose exec users python main.py db upgrade
+
 ### Services
 Service name| Service endpoint|
 -------|---|
@@ -31,7 +35,7 @@ places|http://localhost:8081/v1/places/
 peoples|http://localhost:8082/v1/peoples/
 got|http://localhost:8083/v1/got/places/
 swagger (places, peoples, got)|http://localhost:8084/
-users|_http://localhost:8085/users/v1/users_
+users|http://localhost:8085/users/v1/users/
 swagger-users|http://localhost:8085/users/v1/ui/
 authentication|http://localhost:8086/auth/v1/
 swagger-authentication|http://localhost:8086/auth/v1/ui/

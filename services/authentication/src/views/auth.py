@@ -12,12 +12,15 @@ KEY = "SECRET"
 
 @views_bp.route("/login", methods=["POST"])
 def login():
-    """Healtcheck endpoint"""
+    """Login endpoint"""
     data = request.get_json()
     username = data.get("username")
     password = data.get("password")
     base_url = config().CLIENTS.USERS.SERVER
-    url = base_url + "/users/authenticate"
+
+    url = config().CLIENTS.USERS.AUTHENTICATE
+    url = url.format(base_url=base_url)
+
     response = requests.post(url, json={"username": username, "password": password})
     if response.ok:
         data = response.json()
