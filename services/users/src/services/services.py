@@ -2,6 +2,7 @@
 Service
 """
 import logging
+
 from src.exceptions import ResourceNotFound
 from src.utils import transactional
 
@@ -12,14 +13,14 @@ class Service:
     entity = None
 
     @transactional
-    def create(self, payload):
+    def create(self, payload: dict):
         instance = self.entity()
         row = instance.mapping_fields(payload)
         self.entity.create(row)
         return row
 
     @transactional
-    def update(self, entity_id, payload):
+    def update(self, entity_id: int, payload: dict):
         instance = self.get_by_id(entity_id)
         return instance.mapping_fields(payload)
 

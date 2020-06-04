@@ -13,15 +13,8 @@ def response_list_paginated(list_name, pagination, serializer, base_link_paginat
     query_params = kwargs.get("query_params")
 
     items = pagination.items
-    response = response_list(
-        list_name,
-        items,
-        serializer=serializer,
-    )
-    context = {
-        "base_link_pagination": base_link_pagination,
-        "query_params": query_params,
-    }
+    response = response_list(list_name, items, serializer=serializer)
+    context = {"base_link_pagination": base_link_pagination, "query_params": query_params}
     schema = PaginationSchema(context=context)
     pagination_field = schema.dump(pagination).data
 

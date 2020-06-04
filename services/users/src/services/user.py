@@ -2,10 +2,12 @@
 Service that manages creation and querying over Book,
 """
 import logging
+
+from flask_bcrypt import Bcrypt
+
 from src.models.user import User
 from src.services.services import Service
 
-from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt()
 
 logger = logging.getLogger("api")
@@ -13,7 +15,7 @@ logger = logging.getLogger("api")
 
 class UserService(Service):
     """
-    Book Entity service.
+    User Entity service.
     """
 
     entity = User
@@ -23,15 +25,13 @@ class UserService(Service):
         entities = entities.paginate(offset + 1, limit)
         return entities
 
-    def get_by_username(self, username):
+    def get_by_username(self, username: str):
         entity = self.entity.query.filter_by(username=username).first()
         return entity
 
-    def authenticated(self, username, password):
+    def authenticated(self, username: str, password: str):
         user = self.entity.query.filter_by(username=username).first()
-        if user and bcrypt.check_password_hash(
-            user.password, password
-        ):
+        if user and bcrypt.check_password_hash(user.password, password):
             return user
 
 

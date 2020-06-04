@@ -14,5 +14,5 @@ pyms:
     SECRET_KEY: "4oc_4thZGfrees-0404-bLctJasdAdsNsdascy"
     CLIENTS:
       USERS:
-        SERVER: http://localhost:8005/users/v1
-        GET_BY_USERNAME: "{base_url}/users"
+        SERVER: http://users:5000/users/v1
+        # SERVER: http://localhost:8085/users/v1

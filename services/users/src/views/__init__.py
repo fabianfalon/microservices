@@ -3,6 +3,7 @@ from flask_restplus import Api
 from pyms.flask.app import config
 
 from src.utils import APIException
+from src.views.roles import API_ROLE as roles_ns
 from src.views.swagger_docs.commons import API_DEFAULT as default_ns
 from src.views.users import API_USER as users_ns
 
@@ -23,6 +24,7 @@ API = Api(
 # Registers resources from namespace for current instance of api.
 API.add_namespace(default_ns)
 API.add_namespace(users_ns, path="/")
+API.add_namespace(roles_ns, path="/")
 
 
 @API.errorhandler(APIException)

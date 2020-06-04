@@ -2,18 +2,24 @@ import copy
 import logging
 
 from flask import Response, request
+from flask_bcrypt import Bcrypt
 from flask_restplus import Resource, reqparse
 from werkzeug.exceptions import BadRequest
 
 from helpers import response_item, response_list, response_list_paginated
-from src.models.constants import MAX_ELEMENT_PAGINATION_BOOK
+from src.models.constants import MAX_ELEMENT_PAGINATION
 from src.serializers.user import UserMinSchema
 from src.services.user import usr_srv
 from src.views.swagger_docs.api_model import API_USER
 from src.views.swagger_docs.commons import MODEL_ERROR_LIST
-from src.views.swagger_docs.user import MODEL_CREATE_USER, MODEL_DATA_USER_PAGINATED_LIST_PARENT, MODEL_UPDATE_USER, MODEL_USER_AUTHENTICATED
+from src.views.swagger_docs.user import (
+    MODEL_CREATE_USER,
+    MODEL_DATA_USER_PAGINATED_LIST_PARENT,
+    MODEL_UPDATE_USER,
+    MODEL_USER_AUTHENTICATED,
+)
 from src.views.validators.user import validate_user
-from flask_bcrypt import Bcrypt
+
 bcrypt = Bcrypt()
 TAG_WRAPPER = "user"
 TAG_LIST_WRAPPER = "users"
@@ -31,7 +37,7 @@ class User(Resource):
         },
         params={
             "offset": {"description": "OFFSET", "type": "integer"},
-            "limit": {"description": "LIMIT, default {}".format(MAX_ELEMENT_PAGINATION_BOOK), "type": "integer"},
+            "limit": {"description": "LIMIT, default {}".format(MAX_ELEMENT_PAGINATION), "type": "integer"},
             "authorId": {"description": "Author id", "type": "integer"},
         },
     )
@@ -39,7 +45,7 @@ class User(Resource):
 
         parser = reqparse.RequestParser()
         parser.add_argument("offset", required=False, default=0, type=int, location="args")
-        parser.add_argument("limit", required=False, default=MAX_ELEMENT_PAGINATION_BOOK, type=int, location="args")
+        parser.add_argument("limit", required=False, default=MAX_ELEMENT_PAGINATION, type=int, location="args")
         parser.add_argument("roleId", required=False, type=int, location="args")
         params = {}
         try:
@@ -47,7 +53,7 @@ class User(Resource):
         except BadRequest as err:
             raise Exception(message=err.data["message"], parameters=err.data["errors"])
 
-        params.update({"offset": min(args.get("offset"), MAX_ELEMENT_PAGINATION_BOOK)})
+        params.update({"offset": min(args.get("offset"), MAX_ELEMENT_PAGINATION)})
         params.update({"limit": args.get("limit", 0)})
         params.update({"roleId": args.get("authorId", None)})
 
@@ -64,12 +70,11 @@ class User(Resource):
             query_params=params_dict,
         )
 
-
     @API_USER.expect(MODEL_CREATE_USER, description="Input data")
     @API_USER.doc(
-        description="Create book",
+        description="Create user",
         responses={
-            201: ("Book created", MODEL_CREATE_USER),
+            201: ("User created", MODEL_CREATE_USER),
             400: ("Input data wrong", MODEL_ERROR_LIST),
             403: ("User does not have enough permissions", MODEL_ERROR_LIST),
             406: ("Some of the requested languages are not available", MODEL_ERROR_LIST),
@@ -78,12 +83,10 @@ class User(Resource):
         },
     )
     def post(self):
-        logger.debug("Creating Book")
+        logger.debug("Creating User")
         user_payload = request.get_json()
         validate_user(user_payload)
-        user_payload["password"] = bcrypt.generate_password_hash(
-            user_payload.get("password"), 13
-        ).decode()
+        user_payload["password"] = bcrypt.generate_password_hash(user_payload.get("password"), 13).decode()
         user = usr_srv.create(user_payload)
         data = response_item(TAG_WRAPPER, user, serializer=UserMinSchema)
         return data, 201
@@ -95,7 +98,7 @@ class UserDetail(Resource):
         description="Delete a user",
         responses={
             204: "User deleted",
-            404: ("Book Entity not found", MODEL_ERROR_LIST),
+            404: ("User Entity not found", MODEL_ERROR_LIST),
             409: ("Data conflict", MODEL_ERROR_LIST),
             500: ("Internal Server Error", MODEL_ERROR_LIST),
         },
@@ -108,7 +111,7 @@ class UserDetail(Resource):
     @API_USER.doc(
         description="Detail user",
         responses={
-            204: "Book detaild",
+            204: "User detaild",
             404: ("User Entity not found", MODEL_ERROR_LIST),
             409: ("Data conflict", MODEL_ERROR_LIST),
             500: ("Internal Server Error", MODEL_ERROR_LIST),
@@ -122,11 +125,10 @@ class UserDetail(Resource):
 
 @API_USER.route("users/<string:username>")
 class UserByUsername(Resource):
-
     @API_USER.doc(
         description="get user by username",
         responses={
-            204: "Book detaild",
+            204: "User detaild",
             404: ("User Entity not found", MODEL_ERROR_LIST),
             409: ("Data conflict", MODEL_ERROR_LIST),
             500: ("Internal Server Error", MODEL_ERROR_LIST),
@@ -139,8 +141,7 @@ class UserByUsername(Resource):
 
 
 @API_USER.route("users/authenticate")
-class UserAuthent(Resource):
-
+class UserAuthenticate(Resource):
     @API_USER.expect(MODEL_USER_AUTHENTICATED, description="Input data")
     @API_USER.doc(
         description="User Authenticate",
@@ -154,9 +155,8 @@ class UserAuthent(Resource):
         },
     )
     def post(self):
-        logger.debug("Creating Book")
+        logger.debug("Creating User")
         user = request.get_json()
-
         user = usr_srv.authenticated(user.get("username"), user.get("password"))
         data = response_item(TAG_WRAPPER, user, serializer=UserMinSchema)
         return data, 200

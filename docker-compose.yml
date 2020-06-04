@@ -64,7 +64,7 @@ services:
     volumes:
       - './services/users:/usr/src/app'
     ports:
-      - 8005:5000
+      - 8085:5000
     environment:
       - FLASK_ENV=development
       #- APP_SETTINGS=src.config.DevelopmentConfig
@@ -83,6 +83,23 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+
+  authentication:
+    build:
+      context: ./services/authentication
+      dockerfile: Dockerfile
+    volumes:
+      - './services/authentication:/usr/src/app'
+    ports:
+      - 8086:8000
+    environment:
+      - FLASK_ENV=development
+      - APP_SETTINGS=src.config.DevelopmentConfig
+      - PLACE_SERVICE_URL=http://places:8081
+      - PEOPLE_SERVICE=http://peoples:8082
+    depends_on:
+      - peoples-db
+      - places
 
   got:
     build:

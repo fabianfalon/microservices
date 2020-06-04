@@ -30,4 +30,8 @@ Service name| Service endpoint|
 places|http://localhost:8081/v1/places/
 peoples|http://localhost:8082/v1/peoples/
 got|http://localhost:8083/v1/got/places/
-swagger|http://localhost:8084/
+swagger (places, peoples, got)|http://localhost:8084/
+users|_http://localhost:8085/users/v1/users_
+swagger-users|http://localhost:8085/users/v1/ui/
+authentication|http://localhost:8086/auth/v1/
+swagger-authentication|http://localhost:8086/auth/v1/ui/

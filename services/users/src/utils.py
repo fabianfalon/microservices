@@ -91,7 +91,6 @@ def transactional(func):
     return wrapped
 
 
-
 class CustomErrorHandler(BasicErrorHandler):
     def __init__(self, tree=None):
         super(CustomErrorHandler, self).__init__(tree)

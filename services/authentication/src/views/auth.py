@@ -1,10 +1,10 @@
 import time
 
-import jwt
 import requests
 from flask import jsonify, request
 from pyms.flask.app import config
 
+import jwt
 from src.views import views_bp
 
 KEY = "SECRET"
@@ -28,7 +28,7 @@ def login():
             "aud": aud,
             "iat": now,
             "exp": now + 3600 * 24,
-            "payload": data.get("data").get("user")
+            "payload": data.get("data").get("user"),
         }
         token = jwt.encode(token, KEY)
         return {"access_token": token.decode("utf8")}
