@@ -28,3 +28,19 @@ spec:
     targetPort: 5432
   selector:
     app: people-db
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: users-db
+  name: users-db
+spec:
+  type: ClusterIP
+  ports:
+  - name: "users-db"
+    port: 5434
+    targetPort: 5432
+  selector:
+    app: users-db

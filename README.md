@@ -1,5 +1,5 @@
 # Microservicios
-Ejemplo de microservicios en flask y conexion entre los mismos.
+Ejemplo de microservicios en flask y conexión entre los mismos.
 
 ### Local Setup
 
@@ -39,3 +39,27 @@ users|http://localhost:8085/users/v1/users/
 swagger-users|http://localhost:8085/users/v1/ui/
 authentication|http://localhost:8086/auth/v1/
 swagger-authentication|http://localhost:8086/auth/v1/ui/
+
+
+#### RUN with kubernetes
+    $ minikube start
+    $ cd k8s
+    $ kubectl -f apply .
+
+#### get minikube ip to access
+    $ minikube ip
+
+Service name| Service endpoint with minikube ip|
+-------|---|
+got|http://192.168.99.100:31000/v1/got/places/
+places|http://192.168.99.100:31020/v1/places/
+peoples|http://192.168.99.100:31050/v1/peoples/
+authentication|http://192.168.99.100:31080/auth/v1/
+swagger-authentication|http://192.168.99.100:31080/auth/v1/ui/
+users|http://192.168.99.100:31090/users/v1/users/
+swagger-users|http://192.168.99.100:31090/users/v1/ui/
+
+#### push to docker hub
+    $ docker login
+    $ docker build -t fabianfalon/authentication-service:tag .
+    $ docker push fabianfalon/authentication-service:tag

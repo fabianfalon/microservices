@@ -41,3 +41,34 @@ spec:
     port: 5000
     nodePort: 31050
   type: NodePort
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: authentication
+spec:
+  selector:
+    app: authentication
+  ports:
+  - name: "authentication-service"
+    port: 8000
+    nodePort: 31080
+  type: NodePort
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: user
+spec:
+  selector:
+    app: user
+  ports:
+  - name: "user-service"
+    port: 8000
+    nodePort: 31090
+  type: NodePort

@@ -28,6 +28,7 @@ spec:
         - name: SECRET_KEY
           value: PB3aGvTmCkzaLGRAxDc3aMayKTPTDd5usT8gw4pCmKOk5AlJjh12pTrnNgQyOHCH
 
+---
 
 apiVersion: apps/v1
 kind: Deployment
@@ -92,5 +93,71 @@ spec:
           value: src.config.DevelopmentConfig
         - name: DATABASE_URL
           value: postgres://people_user:people_pass@people-db:5433/peoples
+        - name: SECRET_KEY
+          value: PB3aGvTmCkzaLGRAxDc3aMayKTPTDd5usT8gw4pCmKOk5AlJjh12pTrnNgQy333
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: authentication
+  name: authentication
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authentication
+  template:
+    metadata:
+      labels:
+        app: authentication
+    spec:
+      containers:
+      - image: fabianfalon/authentication-service:1
+        name: authentication
+        ports:
+        - containerPort: 80
+          name: authentication
+        env:
+        - name: FLASK_ENV
+          value: development
+        - name: APP_SETTINGS
+          value: src.config.DevelopmentConfig
+        - name: SECRET_KEY
+          value: PB3aGvTmCkzaLGRAxDc3aMayKTPTDd5usT8gw4pCmKOk5AlJjh12pTrnNgQy333
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: user
+  name: user
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user
+  template:
+    metadata:
+      labels:
+        app: user
+    spec:
+      containers:
+      - image: fabianfalon/user-service:1
+        name: user
+        ports:
+        - containerPort: 80
+          name: user
+        env:
+        - name: FLASK_ENV
+          value: development
+        - name: APP_SETTINGS
+          value: src.config.DevelopmentConfig
+        - name: DATABASE_URL
+          value: postgres://postgres:postgres@users-db:5434/users
         - name: SECRET_KEY
           value: PB3aGvTmCkzaLGRAxDc3aMayKTPTDd5usT8gw4pCmKOk5AlJjh12pTrnNgQy333
