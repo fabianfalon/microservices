@@ -8,6 +8,6 @@ Flask-SQLAlchemy==2.3.2
 flask-debugtoolbar==0.10.1
 Flask-Testing==0.7.1
 psycopg2-binary==2.7.7
-flask-cors==3.0.7
+flask-cors==3.0.9
 requests
 simplejson
